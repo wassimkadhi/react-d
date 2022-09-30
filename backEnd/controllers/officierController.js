@@ -1,11 +1,12 @@
 import officier from '../models/officierModel.js';
+import promotion from '../models/promotionModel.js';
 let officiers=officier;
 
 
 
 //find all officiers
 export const getOfficiers=(req,res)=>{
-    officiers.find()
+    officiers.find().populate('promotion','name , number')
      .then(officiers => res.json(officiers))
      .catch(err => res.status(400).json('Error: ' + err));
      
@@ -24,6 +25,7 @@ export const getOfficiers=(req,res)=>{
      const adresse = req.body.adresse;
      const mobile = req.body.mobile ; 
      const poste =req.body.post ;
+     const promotion =req.body.promotion ;
 
      const newOficier = new officier(
         {
@@ -37,6 +39,7 @@ export const getOfficiers=(req,res)=>{
             adresse,
             mobile,
             poste,
+            promotion,
 
         }
      );
@@ -49,7 +52,7 @@ export const getOfficiers=(req,res)=>{
  }
 // delete officier by id
  export const deleteOfficier=(req,res)=>{
-    console.log(req.params.id) ;
+    
     
     officier.findByIdAndDelete(req.params.id) 
      .then(() => res.json("officier deleted"))
@@ -80,3 +83,18 @@ export const getOfficiers=(req,res)=>{
    
  }
 
+//find officier by id
+ export const findOfficier=(req,res) =>{
+    officier.findById(req.params.id) 
+    .then(officier=> res.json(officier))
+    .catch(err => res.status(400).json('Error: ' + err));
+    
+    }
+//find officierby id promotion
+
+export const getOfficiersbypromotion=(req,res)=>{
+    console.log("im here to test link advanced ");
+    officiers.find({promotion: req.params.id}).populate('promotion','name')
+     .then(officiers => res.json(officiers))
+     .catch(err => res.status(400).json('Error: ' + err));
+}

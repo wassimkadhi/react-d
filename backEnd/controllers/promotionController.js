@@ -6,10 +6,10 @@ import officier  from'../models/officierModel.js' ;
 
 
 
-
+//get all promotion
 
 export const getPromotions=(req,res)=>{
-   promotion.find().populate('officiers', 'number name adresse')
+   promotion.find().populate('officiers')
     .then(promotion => res.json(promotion))
     .catch(err => res.status(400).json('Error: ' + err));
 }
@@ -59,6 +59,47 @@ export const getPromotions=(req,res)=>{
 
 }
 
+
+//delte promotion
+export const deletePromotion=(req,res)=>{
+promotion.findByIdAndDelete(req.params.id) 
+.then(()=> res.json("promotion delted"))
+.catch(err => res.status(400).json('Error: ' + err));
+
+
+}
+
+//update promotion
+export const updatePromotion=(req,res)=>{
+
+    const name = req.body.name ; 
+    const number =Number(req.body.number) ;
+    const type=req.body.type ; 
+    const description = req.body.description;
+    const duration = req.body.duration ; 
+    const dateD =Date.parse(req.body.dateF) ;
+    const dateF=Date.parse(req.body.dateF) ;  
+    const location =req.body.location ;
+    const officiers = req.body.officiers;
+
+    promotion.findByIdAndUpdate(req.params.id,{name,number,type,description,duration,dateD,dateF,location,officiers})
+    .then(() => res.json("promotion updatetd"))
+    .catch(err => res.status(400).json('Error: ' + err));
+    
+
+
+}
+
+
+//find promotion by id
+
+export const findPromotion=(req,res) =>{
+   console.log("bnjr" ) ;
+promotion.findById(req.params.id) .populate('officiers')
+.then(promotion=> res.json(promotion))
+.catch(err => res.status(400).json('Error: ' + err));
+
+}
 
 
 

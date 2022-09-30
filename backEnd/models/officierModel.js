@@ -13,6 +13,7 @@ const officierModel = new Schema ({
     adresse :{type:String, required: true },
     mobile:{type:String},
     poste:{type:String},
+    promotion:{ type: Schema.Types.ObjectId, ref: 'promotion' }
 
   }, {
     timestamps: true,
